@@ -114,7 +114,7 @@ public class TakeTestController {
 	public String startTest(@ModelAttribute("testview") TestViews testView, Principal principal) {
 		if (testView.getId() == 0) return "redirect:/SelectTest";
 		myTestView = testViewsService.findById(testView.getId());
-		System.out.println("Selected TEst: " + testView.getId() + "gebruiker:" + principal.getName());
+		System.out.println("Selected Test: " + testView.getId() + "gebruiker:" + principal.getName());
 		// myTestsList = myTestView.getsortedTestViewsList();
 
 		// test output start

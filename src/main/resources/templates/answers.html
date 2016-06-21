@@ -16,8 +16,11 @@
 
     <table>
         <tr th:each="answer : ${answers}">
-            <td><input type="checkbox" th:text="${answer.content}" th:value="${answer.answerID}"/></td>
+            <td><input type="checkbox" th:field="*{answers}" th:text="${answer.content}" th:value="${answer.answerID} th:checked="${#sets.contains(answers,answer.answerID)}"/></td>
             <!--<label th:name="${#ids.prev('answer.anserID')}"></label>-->
+            <!--  <li th:each="role : ${resource.roles}">-->
+              <td><input type="checkbox" name="roles" th:value="${answer.answerID}" th:checked="${#sets.contains(answers,answer.answerID)}" /> <label 
+      th:text="${answer.content}">ROLE_USER</label></li>
         </tr>
     </table>
 

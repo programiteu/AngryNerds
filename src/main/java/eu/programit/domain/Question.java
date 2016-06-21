@@ -139,6 +139,11 @@ public class Question implements Serializable {
 				", internetLink='" + internetLink + '\'' +
 				'}';
 	}
+
+	public void setExam(Exam addedExam) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 

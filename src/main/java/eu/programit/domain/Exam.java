@@ -2,6 +2,7 @@ package eu.programit.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,10 +20,40 @@ public class Exam implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private int examID;
+	
+	@Column
+	private String descriptionOfExam;
+	
+	@Override
+	public String toString() {
+		return "Exam [examID=" + examID + ", descriptionOfExam=" + descriptionOfExam + ", examName=" + examName
+				+ ", isParallel=" + isParallel + ", maxTimelnMinutes=" + maxTimelnMinutes + "]";
+	}
+	public int getExamID() {
+		return examID;
+	}
+	public void setExamID(int examID) {
+		this.examID = examID;
+	}
+	public String getDescriptionOfExam() {
+		return descriptionOfExam;
+	}
+	public void setDescriptionOfExam(String descriptionOfExam) {
+		this.descriptionOfExam = descriptionOfExam;
+	}
+	public String getExamName() {
+		return examName;
+	}
+	public void setExamName(String examName) {
+		this.examName = examName;
+	}
+	@Column
+	private String examName; 
 
+	@Column
 	private boolean isParallel;
-	private int numberOfQuestions;
+//	private int numberOfQuestions;
 	//Commented out because Category is not a field of Exam, but a manner of constructing an specific exam
 	//private Category categories;
 	private int maxTimelnMinutes;
@@ -33,12 +64,12 @@ public class Exam implements Serializable{
 	public void setParallel(boolean isParallel) {
 		this.isParallel = isParallel;
 	}
-	public int getNumberOfQuestions() {
-		return numberOfQuestions;
-	}
-	public void setNumberOfQuestions(int numberOfQuestions) {
-		this.numberOfQuestions = numberOfQuestions;
-	}
+//	public int getNumberOfQuestions() {
+//		return numberOfQuestions;
+//	}
+//	public void setNumberOfQuestions(int numberOfQuestions) {
+//		this.numberOfQuestions = numberOfQuestions;
+//	}
 	/*
 	public Category getCategories() {
 		return categories;
@@ -53,12 +84,9 @@ public class Exam implements Serializable{
 	public void setMaxTimelnMinutes(int maxTimelnMinutes) {
 		this.maxTimelnMinutes = maxTimelnMinutes;
 	}
-	public long getId() {
-		return id;
+	public long getExamId() {
+		return examID;
 	}
 
-	@Override
-	public String toString() {
-		return "Exam [isParallel=" + isParallel + ", numberOfQuestions=" + numberOfQuestions + ", maxTimelnMinutes=" + maxTimelnMinutes + "]";
-	}
+
 }
