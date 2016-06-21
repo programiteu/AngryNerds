@@ -1,5 +1,6 @@
 package eu.programit.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import eu.programit.domain.Exam;
 import eu.programit.domain.Question;
+import eu.programit.domain.TestAnswerForm;
 import eu.programit.service.ICreateExamService;
 import eu.programit.service.IQuestionService;
 
@@ -54,5 +56,21 @@ public class CreateExamController {
 		
 		return "addquestionstoexam";
 	}
+	
+//	@RequestMapping(value = "/LoadPrevQuestion", method = RequestMethod.POST)
+//	public String loadPrevQuestion(@ModelAttribute TestAnswerForm testAnswerForm, Principal principal) {
+//		myTestResults.setTestResults(new Integer(myTestView.getCurrentQuestion().getQuestionId()),
+//				testAnswerForm.getTestAnswers());
+//		myTestView.getPrevQuestion();
+//		myTestResults.printValues();
+//		if (testAnswerForm.getTestAnswers() != null) {
+//			for (int s : testAnswerForm.getTestAnswers()) {
+//				System.out.println("Answer = " + s + "gebruiker:" + principal.getName());
+//			}
+//		}
+//		System.out.println(myTestResults);
+//
+//        return "redirect:/loadExamQuestion";
+//	}
 
 }
