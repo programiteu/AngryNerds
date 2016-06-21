@@ -13,6 +13,8 @@ public interface ICreateExamService {
 
 	public Iterable<Exam> findAll(); 
 
-	public void saveQuestion();
+	public void saveQuestion(Question question);
+
+	void saveQuestion();
 
 }
