@@ -1,0 +1,48 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/html"
+	xmlns:th="http://www.thymeleaf.org">
+	<link rel="stylesheet" th:href="@{/css/style.css}" />
+	
+<head>
+<link rel="shortcut icon" href="http://www.programit.nl/wp-content/uploads/2015/12/favicon.png" /><link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.programit.nl/wp-content/uploads/2015/12/programitlogo152x77.png" />
+<title>ProgramIT</title>
+<link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+	<div class="container" id="banner">
+		<div class="row">
+			<h2>Welcome at Program IT Starter App</h2>
+		</div>
+	</div>
+
+
+	<form id="col-form" th:object="${exam}"
+		th:action="@{/createexam}" action="#" method="post">
+		<table>
+			<tr>
+				<td></td>
+				<td><input type="hidden" th:field="*{examID}"
+					class="form-control" placeholder=" id" /></td>
+			</tr>
+			<tr>
+				<td>Exam:</td>
+				<td><input type="text" th:field="*{examname}"/></td>
+			</tr>
+			<tr>
+				<td>Description:</td>
+				<td><input type="text" th:field="*{descriptionofexam}"/></td>
+			</tr>
+			
+			
+
+
+		</table>
+
+	 <input class="button" type="submit" value="Submit"/>
+
+ </form>
+	
+</body>
+</html>
+

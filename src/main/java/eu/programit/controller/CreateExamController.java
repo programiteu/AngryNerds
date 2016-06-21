@@ -30,7 +30,7 @@ public class CreateExamController {
 		iCreateExamService.saveExam(exam);
 		model.addAttribute("exam", new Exam());
 		
-		return "exams";
+		return "examencreation";
 	}
 	
 	@RequestMapping (value= "/addquestionstoexam", method = RequestMethod.POST)
@@ -47,7 +47,7 @@ public class CreateExamController {
 		model.addAttribute("question", new Question());
 		model.addAttribute("questions", questions);
 		
-		return "exams";
+		return "examencreation";
 	}
 
 }
