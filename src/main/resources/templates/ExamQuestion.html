@@ -10,7 +10,7 @@
 <body>	
 
 <header>Level: <span th:text="${question.difficulty}"></span></header>
-<p th:text="|Test ID: ${mytestview.id}, Test: ${mytestview.description}, Question ID: ${question.questionID}"></p>
+<h3 th:text="|Test: ${mytestview.description}, Question Nr: ${mytestview.getCurrentQuestion().getOrderNr()} of ${mytestview.getNrOfQuestions()} , Question ID: ${question.questionID}|"></h3>
 
 <p th:text="${question.content}"></p>
 <pre th:text="${question.code}"/>
@@ -18,7 +18,11 @@
 <form modelattribute="testAnswerForm" method="post" th:action="@{/ShowAllQuestions}">
 	<table>
 		<tr th:each="answer : ${answers}">
-			<td><input type="checkbox"  th:field="${testAnswerForm.testAnswers}" th:value="${answer.answerID}"/></td>
+			<!-- <td><input type="checkbox"  th:field="${testAnswerForm.testAnswers}" th:value="${answer.answerID}"/></td> -->
+			<!-- <td><input type="checkbox"  th:field="${testAnswerForm.testAnswers}" th:value="${answer.answerID}"/><span th:if="(${mytestresults} != null) (${mytestresults.contains('9')}) ?: 'checked'"></span></td> -->
+			<!-- <td><input type="checkbox"  th:field="${testAnswerForm.testAnswers}" th:value="${answer.answerID}" th:if="(${mytestresults} != null)"/></td> -->
+			<td><input type="checkbox"  th:field="${testAnswerForm.testAnswers}" th:value="${answer.answerID}" th:checked="( (${#lists.isEmpty(mytestresults)}) ?: ${#lists.contains(mytestresults, answer.answerID)} )" th:text="|${mytestresults}, ${answer.answerID}|" /></td>
+			<!-- <td><input type="checkbox"  th:field="${(${mytestresults} != null) ? 'checked' : 'notchecked'}" th:value="${answer.answerID}"/></td> -->
 			<td th:text="${answer.content}"></td>
 	    </tr>
 	</table>

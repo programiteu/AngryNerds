@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class TakeTestController {
@@ -24,7 +27,7 @@ public class TakeTestController {
 	IQuestionService iQuestionService;
 
     @Autowired
-    IUserService iUserService;
+	IUserService iUserService;
 	
 	@Autowired
 	ITestResultService iTestResultService;
@@ -47,7 +50,6 @@ public class TakeTestController {
 			q = new Question();
 			q.setContent("Unknown question requested (questionID does not exist)");
 		}
-
 		model.addAttribute("numberCorrect", getCorrectAnswers(answers));
 		// questionCounter++;
 		// System.out.println("TakeTestCont: questionCounter = " +
@@ -56,7 +58,8 @@ public class TakeTestController {
 
 		model.addAttribute("answers", answers);
 		model.addAttribute("mytestview", myTestView);
-		// model.addAttribute("myanswers",
+		model.addAttribute("mytestresults", myTestResults.getTestResults().get(q.getQuestionID()));
+		System.out.println("TAkeTestController . mytestresults : " + myTestResults.getTestResults().get(q.getQuestionID()));
 		// myTestResults.getTestResults(myTestView.getQuestionNr()));
 
 		// model.addAttribute("selectedAnswers", selectedAnswers);
@@ -64,6 +67,7 @@ public class TakeTestController {
 		return "ExamQuestion";
 	}
 
+	// Leandro: getNrOfCorrectAnswers komt volgens mij meer overeen met de functionaliteit
 	private int getCorrectAnswers(List<Answer> answers) {
 		// TODO Auto-generated method stub
 		int count = 0;
@@ -141,15 +145,15 @@ public class TakeTestController {
 		myTestResults.printValues();
         User user = iUserService.findByName(principal.getName());
         myTestResults.setUser(user);
-        myTestResults.setExamID(myTestView.getId());
+        myTestResults.setExamId(myTestView.getId());
 
 		System.out.println(myTestResults);
         // this doesn't work if no catch: nested exception is org.hibernate.PropertyAccessException: could not get a field value by reflection
-       try {
-            iTestResultService.saveTestResult(myTestResults);
-        }catch (Exception e){
-            System.out.println("file not saved");
-        }
+//       try {
+
+//        }catch (Exception e){
+//            System.out.println("file not saved");
+//        }
         System.out.println("should be saved by now");
 		return "redirect:/loadExamQuestion";
 	}
@@ -177,8 +181,13 @@ public class TakeTestController {
 	// *********************************************************************
 
 	@RequestMapping(value = "/ShowAllQuestions", method = RequestMethod.POST)
-	public String showAllQuestions() {
+	public String showAllQuestions(Model model, @ModelAttribute TestAnswerForm testAnswerForm) {
+		myTestResults.setTestResults(new Integer(myTestView.getCurrentQuestion().getQuestionId()),
+				testAnswerForm.getTestAnswers());
+		myTestResults.printValues();
 		// Implement overview of all questions
+		model.addAttribute("mytestview", myTestView);
+		model.addAttribute("questionservice", iQuestionService);
 		return "ShowAllQuestions";
 	}
 	
@@ -187,8 +196,10 @@ public class TakeTestController {
 	// *********************************************************************
 
 	@RequestMapping(value = "/StopTheTest", method = RequestMethod.POST)
-	public String stopTheTest() {
-		// Implement overview of all questions
+	public String stopTheTest(@ModelAttribute TestAnswerForm testAnswerForm) {
+		myTestResults.setTestResults(new Integer(myTestView.getCurrentQuestion().getQuestionId()),
+				testAnswerForm.getTestAnswers());
+		myTestResults.printValues();
 		return "StopTheTest";
 	}
 
@@ -196,12 +207,55 @@ public class TakeTestController {
 	// *********************************************************************
 
 	@RequestMapping(value = "/TestEvaluation", method = RequestMethod.POST)
-	public String testEvaluation() {
+	public String testEvaluation( Model model, Principal principal) {
+		iTestResultService.saveTestResult(myTestResults);
+		User user = iUserService.findByName(principal.getName());
+		int i=0;
+		List<TestResults> testResultses= (List<TestResults>) iTestResultService.findByUser(user);
+		List<Question> questions= new ArrayList<Question>();
+		TestResults lastTestResult = testResultses.get(testResultses.size()-1);
+		System.out.println(lastTestResult.getTestResultId() );
+		Map<Integer, List<Integer>> testResults = lastTestResult.getTestResults();
+		int correctQuestions = 0;
+		int incorrectQuestions = 0;
+		for(Map.Entry<Integer, List<Integer>> element : testResults.entrySet()) {
+			int vraagId = element.getKey();
+			Question q = this.iQuestionService.findById(vraagId);
+			questions.add(q);
+			List<Integer> answers = element.getValue();
+			boolean isOK = true;
+			for(int a :answers){
+				Answer answer = iAnswerService.findOne(a);
+				isOK = isOK && answer.isCorrect();
+
+			}
+			if(isOK) {
+				q.setCorrect(true);
+				questions.add(q);
+				correctQuestions++;
+			}
+			else {
+				incorrectQuestions++;
+			}
+
+		}
+		System.out.println(correctQuestions);
+		System.out.println(incorrectQuestions);
+		int score =(100/(correctQuestions+incorrectQuestions))*correctQuestions;
+		model.addAttribute("questions", questions);
+		model.addAttribute("score", score);
 		// Implement overview of all questions
 		return "TestEvaluation";
 	}
 	
+	//display question after exam
+	@RequestMapping(value = {"/displayQuestInfo/{id}"}, method = RequestMethod.GET)
+	public String displayQuestion(@PathVariable("id") Integer  id,Model model) {
+		System.out.println("we have id"+id);
+		model.addAttribute("question", iQuestionService.findById(id));
 
+		return "displayQuestion";
+	}
 }
 
 class TestSelection {

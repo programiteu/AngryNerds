@@ -241,7 +241,7 @@
 	pre { 
 		overflow-x: auto; 
 		display: block;
-		padding: 20px;
+		padding: 0px;
 		border: 1px solid #e1e1e8;   
 		margin-bottom: 20px;
 		white-space: pre-wrap;
@@ -367,7 +367,7 @@
 
 	table th, 
 	table td {
-		padding: 15px 8px; 
+		padding: 0px 0px; 
 		border-top: 1px solid #b4bfc3;
 		text-align: left;
 		vertical-align: top; 

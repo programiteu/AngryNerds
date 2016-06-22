@@ -1,5 +1,6 @@
 package eu.programit.service;
 
+import eu.programit.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,10 @@ public class TestResultService implements ITestResultService {
 		return null;
 	}
 
+	@Override
+	public Iterable<TestResults> findByUser(User user) {
+		return testResultRepository.findByUser(user);
+	}
 
 
 //    @Override

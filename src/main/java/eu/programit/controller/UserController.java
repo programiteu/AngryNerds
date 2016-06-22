@@ -25,11 +25,11 @@ import java.util.Collection;
 public class UserController {
 
     @Autowired
-    IUserService userServiceInterface;
+    IUserService IUserService;
 
     @RequestMapping("/register")
     public String registerPage(Model model){
-       Collection<User> allUsers = userServiceInterface.getAllUsers();
+       Collection<User> allUsers = IUserService.getAllUsers();
         for(User user:allUsers){
             System.out.println(user);
         }
@@ -40,7 +40,7 @@ public class UserController {
 
     @RequestMapping(value = {"/register/save"}, method = RequestMethod.POST)
         public String registerPage( @ModelAttribute("user") User user) {
-        userServiceInterface.saveUser(user);
+        IUserService.saveUser(user);
         System.out.println(user);
         System.out.println("saving user");
         return "redirect:/login";

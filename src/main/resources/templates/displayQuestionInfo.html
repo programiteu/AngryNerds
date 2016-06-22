@@ -1,0 +1,37 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="shortcut icon" href="http://www.programit.nl/wp-content/uploads/2015/12/favicon.png" /><link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://www.programit.nl/wp-content/uploads/2015/12/programitlogo152x77.png" />
+    <title>ProgramIT</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <title>AngryNerds Examiner</title>
+</head>
+
+<body>
+
+<header>Level: <span th:text="${question.difficulty}"></span></header>
+<h3 th:text="|Test: ${mytestview.description}, Question Nr: ${mytestview.getCurrentQuestion().getOrderNr()} of ${mytestview.getNrOfQuestions()} , Question ID: ${question.questionID}|"></h3>
+
+<p th:text="${question.content}"></p>
+<pre th:text="${question.code}"/>
+<p>Number of answer(s) to select : <span style="font-weight: bold" th:text="${numberCorrect}"/>  </p>
+<form modelattribute="testAnswerForm" method="post" th:action="@{/TestEvaluation}">
+    <table>
+        <tr th:each="answer : ${answers}">
+            <!-- <td><input type="checkbox"  th:field="${testAnswerForm.testAnswers}" th:value="${answer.answerID}"/></td> -->
+            <!-- <td><input type="checkbox"  th:field="${testAnswerForm.testAnswers}" th:value="${answer.answerID}"/><span th:if="(${mytestresults} != null) (${mytestresults.contains('9')}) ?: 'checked'"></span></td> -->
+            <!-- <td><input type="checkbox"  th:field="${testAnswerForm.testAnswers}" th:value="${answer.answerID}" th:if="(${mytestresults} != null)"/></td> -->
+            <td><input type="checkbox"  th:field="${testAnswerForm.testAnswers}" th:value="${answer.answerID}" th:checked="( (${#lists.isEmpty(mytestresults)}) ?: ${#lists.contains(mytestresults, answer.answerID)} )" th:text="|${mytestresults}, ${answer.answerID}|" /></td>
+            <!-- <td><input type="checkbox"  th:field="${(${mytestresults} != null) ? 'checked' : 'notchecked'}" th:value="${answer.answerID}"/></td> -->
+            <td th:text="${answer.content}"></td>
+        </tr>
+    </table>
+    <button type="submit" value="PrevQuestion" formaction="/TestEvaluation">Overview Result</button>
+
+
+    <br/>
+    <button type="submit" value="Submit" formaction="/StopTheTest">Stop this test</button>
+</form>
+
+</body>
+</html>

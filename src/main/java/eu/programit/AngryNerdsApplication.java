@@ -10,3 +10,4 @@ public class AngryNerdsApplication {
 		SpringApplication.run(AngryNerdsApplication.class, args);
 	}
 }
+

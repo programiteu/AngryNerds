@@ -9,32 +9,21 @@
 </head>
 <body>
 <h1> welcome to the AngryNerds Examiner</h1>
-<h2> Select your exam option</h2>
+<h3> Select a test</h3>
 
-<!--
-<form method="get" action="/StartTest">
-    <select type="text">
-        <option name="select" value="C#">C#</option>
-        <option name="select" value="JavaOCA">Java OCA</option>
-        <option name="select" value="JavaOCP">Java OCP</option>
-        <option name="select" value="WebDevelopment">"Web Development</option>
-    </select>
-    <button>submit</button>
-    </form>
--->
-    
+   
 <form modelattribute="testSelection" th:object="${testview}"  method="POST" th:action="@{/StartTest}">
 	<table>
-		<thead>
-			<td></td>
-			<td>Test Type</td>
-			<td>Description</td>
-		</thead>
-		<tbody th:each="testview : ${testviews}">
+		<tr>
+			<th></th>
+			<th>Test Type</th>
+			<th>Description</th>
+		</tr>
+		<tr th:each="testview : ${testviews}">
 			<td><input type="radio" th:value="${testview.id}" th:field="*{id}" name="testtype" required=""/></td>
 			<td th:text="${testview.testType}"></td>
 			<td th:text="${testview.description}"></td>
-	    </tbody>
+	    </tr>
 	</table>
 	<button type="submit" value="Submit">Start Test</button>
 </form>    

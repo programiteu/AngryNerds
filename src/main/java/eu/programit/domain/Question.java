@@ -27,7 +27,10 @@ public class Question implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "categoryid")
 	private Category category;
-	
+
+	@Transient
+	private boolean correct;
+
 	@Column(columnDefinition = "TEXT")
 	private String content;
 	
@@ -49,6 +52,14 @@ public class Question implements Serializable {
 	private boolean hasFeedback;
 	
 	private String internetLink;
+
+	public boolean isCorrect() {
+		return correct;
+	}
+
+	public void setCorrect(boolean correct) {
+		this.correct = correct;
+	}
 
 	public Category getCategory() {
 		return category;

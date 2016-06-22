@@ -64,7 +64,10 @@ public class TestViews implements Serializable {
 
 	public TestViewsContent getCurrentQuestion() {
 		return sortedTestViewsList.get(questionNr);	
+	}
 	
+	public int getNrOfQuestions() {
+		return sortedTestViewsList.size();
 	}
 
 	/****** Getters & Setters ******************************************************/
@@ -99,6 +102,10 @@ public class TestViews implements Serializable {
 
 	public void setQuestionNr(int questionNr) {
 		this.questionNr = questionNr;
+	}
+
+	public List<TestViewsContent> getSortedTestViewsList() {
+		return sortedTestViewsList;
 	}
 	
 	

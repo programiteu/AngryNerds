@@ -23,4 +23,8 @@ public class AnswerService implements IAnswerService {
 
         return itr ;
     }
+
+    public Answer findOne(int id){
+        return answerRepository.findOne(id);
+    }
 }

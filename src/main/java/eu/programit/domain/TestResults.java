@@ -2,6 +2,7 @@ package eu.programit.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,26 +18,32 @@ public class TestResults implements Serializable {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int examID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int testResultId;
+
+
+    private int examId;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "userid")
     private User user;
 
     // map questions to answers
     @Column(columnDefinition = "BLOB")
-    @ElementCollection
-    @OneToMany(targetEntity = User.class)
+    @ElementCollection(targetClass = ArrayList.class)
     //Key = questionID  value list of answerIDs
     private Map<Integer, List<Integer>> testResults = new HashMap<>();
 
-    public int getExamID() {
-        return examID;
+    public int getTestResultId() {
+        return testResultId;
     }
 
-    public void setExamID(int examID) {
-        this.examID = examID;
+    public int getExamId() {
+        return examId;
+    }
+
+    public void setExamId(int examId) {
+        this.examId = examId;
     }
 
     public User getUser() {
@@ -89,13 +96,10 @@ public class TestResults implements Serializable {
     @Override
     public String toString() {
         return "TestResults{" +
-                "examID=" + examID +
-                ", user=" + user +
+                "id=" + testResultId +
+                ", examId=" + examId +
+               ", user=" + user +
                 ", testResults=" + testResults +
                 '}';
     }
-    //    @Override
-//    public String toString() {
-//        return "TestResults [testResults=" + testResults + "]";
-//    }
 }

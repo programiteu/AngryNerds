@@ -11,9 +11,31 @@
 
 <header>Evaluation of the test</header>
 
-<p>Evaluation results come here .....</p>
+<p>Your testResults:</p> <span th:text="${score}"></span><span>%</span>
+<table>
+    <caption>Question overview</caption>
+    <thead>
+    <th>ID</th>
+    <th>Question</th>
+    <th>Evaluation</th>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(questions)}" >
+        <td colspan="3" align="center">No questions found!</td>
+    </tr>
+    <tr th:each="question : ${questions}">
+        <td th:text="${question.questionID}"></td>
+        <td th:text="${question.content}"></td>
+        <td th:text="${question.correct}"></td>
+        <td>
+            <a th:href="@{/displayQuestInfo/{id}(id=${question.questionID})}">&emsp;&emsp;<span><i class="fa fa-close fa-lg" aria-hidden="true"></i>&emsp;</span></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
-<form modelattribute="testAnswerForm" method="post" th:action="@{/SelectTest}">
+
+<form modelattribute="lastTestResult" method="get" th:action="@{/SelectTest}">
 	<button type="submit" value="Submit">Select a new test</button>
 </form>
 

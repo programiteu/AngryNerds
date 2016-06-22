@@ -1,6 +1,7 @@
 package eu.programit.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by udr013 on 11-5-2016.
@@ -8,7 +9,9 @@ import javax.persistence.*;
 
 @Entity //always create getters setters to communicate with thymeleaf
 @Table(name="users")
-public class User {
+public class User implements Serializable{
+
+    private static final long serialVersionUID = -8245795555515772189L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
