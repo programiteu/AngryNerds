@@ -13,11 +13,12 @@
 
 <table>
         <tr th:each="question : ${questions}">
-            <td><input type="checkbox" th:field="*{questions}" th:text="${question.content}" th:value="${question.questionID}"/></td>
+            <td><input type="checkbox" th:field="*{questions}" th:value="${question.questionID}"/></td>
+           <td th:text="${question.content}"></td>
            
         </tr>
     </table>
-<button type="submit" value="AddtoExam" formaction="/addquestionstoexam">Add to Exam</button>
+<button type="submit" value="AddtoExam" formaction="/savetestquestionstoexam">Add to Exam</button>
 <a href="#" th:href="@{/addquestionstoexam}">Add Question</a>
 <a href="#" th:href="@{/}">Back to Index</a>
 

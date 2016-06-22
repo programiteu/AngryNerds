@@ -13,12 +13,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import eu.programit.domain.Exam;
 import eu.programit.domain.Question;
 import eu.programit.domain.TestAnswerForm;
+import eu.programit.domain.TestQuestionForm;
+import eu.programit.domain.TestResults;
+import eu.programit.domain.TestViews;
 import eu.programit.service.ICreateExamService;
 import eu.programit.service.IQuestionService;
 
 @Controller
 public class CreateExamController {
 	
+	TestResults myTestResults = new TestResults();
+	TestViews myTestView;
 	@Autowired 
 	ICreateExamService iCreateExamService;
 	
@@ -57,20 +62,20 @@ public class CreateExamController {
 		return "addquestionstoexam";
 	}
 	
-//	@RequestMapping(value = "/LoadPrevQuestion", method = RequestMethod.POST)
-//	public String loadPrevQuestion(@ModelAttribute TestAnswerForm testAnswerForm, Principal principal) {
-//		myTestResults.setTestResults(new Integer(myTestView.getCurrentQuestion().getQuestionId()),
-//				testAnswerForm.getTestAnswers());
-//		myTestView.getPrevQuestion();
-//		myTestResults.printValues();
-//		if (testAnswerForm.getTestAnswers() != null) {
-//			for (int s : testAnswerForm.getTestAnswers()) {
-//				System.out.println("Answer = " + s + "gebruiker:" + principal.getName());
-//			}
-//		}
-//		System.out.println(myTestResults);
-//
-//        return "redirect:/loadExamQuestion";
-//	}
+	@RequestMapping(value = "/savetestquestionstoexam", method = RequestMethod.POST)
+	public String saveTestQuestionsToExam(@ModelAttribute TestQuestionForm testQuestionForm, Principal principal) {
+		myTestResults.setTestResults(new Integer(myTestView.getCurrentQuestion().getQuestionId()),
+				testQuestionForm.getTestQuestions());
+		myTestView.getPrevQuestion();
+		myTestResults.printValues();
+		if (testQuestionForm.getTestQuestions() != null) {
+			for (int s : testQuestionForm.getTestQuestions()){
+				System.out.println("Answer = " + s + "gebruiker:" + principal.getName());
+			}
+		}
+		System.out.println(myTestResults);
+
+        return "redirect:/";
+	}
 
 }
